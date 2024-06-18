@@ -1,13 +1,7 @@
-import express from "express";
-const app=express();
+import dotenv from "dotenv";
+import connectDB from "./db/dbConnection.js";
+dotenv.config({
+  path: ".env",
+});
 
-app.get("/",(req,res)=>{
-    res.send("server is ready")
-})
-
-
-const port=process.env.PORT || 3000;
-
-app.listen(port,()=>{
-    console.log(`server running on http://localhost:3000`)
-})
+connectDB();
