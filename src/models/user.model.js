@@ -11,7 +11,7 @@ const userSchema = new Schema(
     role: { type: String, enum: ["PROVIDER", "CONSUMER"], required: true },
     phone_number: { type: String },
     address: {
-      address_line1: { type: String },
+      // address_line1: { type: String },
       city: { type: String },
       state: { type: String },
       zipcode: { type: String },
