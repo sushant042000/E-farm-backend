@@ -139,7 +139,63 @@ const logoutUser=asyncHandler(async(req,res)=>{
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, "Logged out successfully", null));
-})
+});
+
+const updateProfile=asyncHandler(async(req,res)=>{
+
+  const { name, surname, email, phone_number } = req.body;
+
+  //validation
+  if (!name || !surname || !email || !phone_number) {
+    throw new ApiError( 400, "All fields are required.{ name, surname, email, phone_number }" );
+  }
+
+  const userId = req.user?._id;
+
+  let updatedUser = {};
+  const avatarlocalPath = req?.file?.path;
+
+  if (avatarlocalPath) {
+    //upload image on cloudinary
+    const avatar = await uploadOnCloudinary(avatarlocalPath);
+    if (!avatar) {
+      throw new ApiError(500, "failed to update profile image");
+    }
+
+    updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          name,
+          surname,
+          email,
+          phone_number,
+          avatar: avatar.url,
+        },
+      },
+      {
+        new: true,
+      }
+    ).select("-password -refreshToken");
+  } else {
+    updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          name,
+          surname,
+          email,
+          phone_number,
+        },
+      },
+      {
+        new: true,
+      }
+    ).select("-password -refreshToken");
+  }
+  res.status(200).json(new ApiResponse(200, "Profile updated successfully",updatedUser));
+});
 
 
-export { registerUser , loginUser , logoutUser };
+
+export { registerUser , loginUser , logoutUser , updateProfile };
