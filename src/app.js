@@ -23,7 +23,9 @@ app.use(cookieParser());
 
 //routes import
 import userRouter from "./routes/user.routes.js"
+import adminRouter from "./routes/admin.route.js"
 
 //route declaration
 app.use("/api/v1/user",userRouter);
+app.use("/api/v1/admin",adminRouter)
 export default app;
