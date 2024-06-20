@@ -83,7 +83,7 @@ const loginUser=asyncHandler(async (req, res)=>{
   });
 
   if (!user) {
-    throw new ApiError( 400, "User does not exitst");
+    throw new ApiError( 400, "User does not exist");
   }
 
   const isPasswordCorrect=await user.isPasswordCorrect(password);
@@ -199,7 +199,7 @@ const updateProfile=asyncHandler(async(req,res)=>{
 const deleteAccoutnt=asyncHandler(async(req,res)=>{
   const userId = req.user._id;
   await User.findByIdAndDelete(userId);
-  
+
   res.status(200)
     .json(new ApiResponse(200, "Account deleted successfully", null));
 
