@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUser, logoutUser, registerUser, updateProfile } from "../controllers/user.controller.js";
+import { deleteAccoutnt, loginUser, logoutUser, registerUser, updateProfile } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { veriefyJWT } from "../middlewares/auth.middleware.js";
 
@@ -12,6 +12,9 @@ router.route("/login").post(loginUser);
 router.route("/logout").get(veriefyJWT,logoutUser);
 
 router.route("/profile/update").post( veriefyJWT , upload.single("avatar") , updateProfile);
+
+router.route("/profile/delete").delete(veriefyJWT,deleteAccoutnt);
+
 
 
 export default router;

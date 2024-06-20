@@ -196,6 +196,15 @@ const updateProfile=asyncHandler(async(req,res)=>{
   res.status(200).json(new ApiResponse(200, "Profile updated successfully",updatedUser));
 });
 
+const deleteAccoutnt=asyncHandler(async(req,res)=>{
+  const userId = req.user._id;
+  await User.findByIdAndDelete(userId);
+  
+  res.status(200)
+    .json(new ApiResponse(200, "Account deleted successfully", null));
+
+})
 
 
-export { registerUser , loginUser , logoutUser , updateProfile };
+
+export { registerUser , loginUser , logoutUser , updateProfile , deleteAccoutnt };
